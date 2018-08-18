@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout for the editor -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_margin"
+    tools:context="EditorActivity">
+
+    <!-- Name field -->
+    <EditText
+        android:id="@+id/productName"
+        android:hint="Product Name"
+        android:inputType="textCapWords"
+        style="@style/EditorFieldStyle" />
+
+    <!-- Price field -->
+    <EditText
+        android:id="@+id/price"
+        android:hint="Price"
+        android:inputType="numberDecimal"
+        style="@style/EditorFieldStyle" />
+
+    <!-- Quantity field -->
+    <EditText
+        android:id="@+id/quantity"
+        android:hint="Quantity"
+        android:inputType="number"
+        style="@style/EditorFieldStyle" />
+
+    <!-- Supplier field -->
+    <EditText
+        android:id="@+id/supplier"
+        android:hint="Supplier"
+        android:inputType="textCapWords"
+        style="@style/EditorFieldStyle" />
+
+    <!-- Supplier Phone field -->
+    <EditText
+        android:id="@+id/supplierPhone"
+        android:hint="Supplier Phone Number"
+        android:inputType="textCapWords"
+        style="@style/EditorFieldStyle" />
+    <Button
+        android:id="@+id/add_product_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="add product" />
+
+</LinearLayout>
