@@ -17,8 +17,8 @@
     <string name="no_items_saved">No items saved</string>
     <string name="add_product">Add Product</string>
     <string name="edit_product">Edit Product</string>
-    <string name="manufacturer">Manufacturer:</string>
-    <string name="in_stock">In Stock:</string>
+    <string name="manufacturer">Manufacturer: </string>
+    <string name="in_stock">In Stock: </string>
     <string name="cannot_query">Cannot query unknown URI</string>
     <string name="insertion_unsupported">Insertion is not supported for</string>
     <string name="name_required">Product requires a name</string>
