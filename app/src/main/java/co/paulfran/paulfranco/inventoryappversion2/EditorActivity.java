@@ -66,14 +66,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // creating a new pet.
         if (mCurrentProductUri == null) {
             // This is a new product, so change the app bar to say "Add a Product"
-            setTitle("Add Product");
+            setTitle(getString(R.string.add_product));
 
             // Invalidate the options menu, so the "Delete" menu option can be hidden.
             // (It doesn't make sense to delete a product that hasn't been created yet.)
             invalidateOptionsMenu();
         } else {
             // Otherwise this is an existing product, so change app bar to say "Edit Product"
-            setTitle("Edit Product");
+            setTitle(getString(R.string.edit_product));
 
             // Initialize a loader to read the product data from the database
             // and display the current values in the editor
@@ -118,7 +118,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 TextUtils.isEmpty(phoneString) && TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(priceString)) {
             // Since no fields were modified, we can return early without creating a new product.
             // No need to create ContentValues and no need to do any ContentProvider operations.
-            Toast.makeText(this, "No items saved", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_items_saved, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -141,11 +141,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Show a toast message depending on whether or not the insertion was successful.
             if (newUri == null) {
                 // If the new content URI is null, then there was an error with insertion.
-                Toast.makeText(this, "Error Updating Product",
+                Toast.makeText(this, R.string.error_updating,
                         Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the insertion was successful and we can display a toast.
-                Toast.makeText(this, "insertion successful",
+                Toast.makeText(this, R.string.insert_success,
                         Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -154,11 +154,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Show a toast message depending on whether or not the update was successful.
             if (rowsAffected == 0) {
                 // If no rows were affected, then there was an error with the update.
-                Toast.makeText(this, "update product failed",
+                Toast.makeText(this, R.string.update_failed,
                         Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the update was successful and we can display a toast.
-                Toast.makeText(this, "update product successful",
+                Toast.makeText(this, R.string.update_success,
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -330,9 +330,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("changes un-saved");
-        builder.setPositiveButton("discard", discardButtonClickListener);
-        builder.setNegativeButton("keep editing", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.not_saved);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Keep editing" button, so dismiss the dialog
                 // and continue editing the pet.
@@ -354,14 +354,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("delete this product?");
-        builder.setPositiveButton("delete", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.delete_product);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the product.
                 deletePet();
             }
         });
-        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
                 // and continue editing the product.
@@ -390,11 +390,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Show a toast message depending on whether or not the delete was successful.
             if (rowsDeleted == 0) {
                 // If no rows were deleted, then there was an error with the delete.
-                Toast.makeText(this, "failed to delete",
+                Toast.makeText(this, R.string.delete_failed,
                         Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the delete was successful and we can display a toast.
-                Toast.makeText(this, "successfully deleted",
+                Toast.makeText(this, R.string.delete_success,
                         Toast.LENGTH_SHORT).show();
             }
         }

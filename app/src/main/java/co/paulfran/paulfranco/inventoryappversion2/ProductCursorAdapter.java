@@ -45,7 +45,7 @@ public class ProductCursorAdapter extends CursorAdapter {
 
         // Update the TextViews with the attributes for the current pet
         nameTextView.setText(productName);
-        summaryTextView.setText("Manufacturer: " + productManufacturer);
-        qtySummaryTextView.setText("In Stock: " + productQty);
+        summaryTextView.setText(context.getString(R.string.manufacturer) + productManufacturer);
+        qtySummaryTextView.setText(context.getString(R.string.in_stock) + productQty);
     }
 }

@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Inventory App Version 2</string>
+    <string name="catalog_activity">CatalogActivity</string>
+    <string name="rows_deleted">rows deleted from products database</string>
+    <string name="not_saved">changes un-saved</string>
+    <string name="discard">discard</string>
+    <string name="keep_editing">keep editing</string>
+    <string name="delete_product">delete this product?</string>
+    <string name="delete">delete</string>
+    <string name="cancel">cancel</string>
+    <string name="delete_failed">failed to delete</string>
+    <string name="delete_success">successfully deleted</string>
+    <string name="error_updating">Error Updating Product</string>
+    <string name="insert_success">insertion successful</string>
+    <string name="update_failed">update product failed</string>
+    <string name="update_success">update product successful</string>
+    <string name="no_items_saved">No items saved</string>
+    <string name="add_product">Add Product</string>
+    <string name="edit_product">Edit Product</string>
+    <string name="manufacturer">Manufacturer:</string>
+    <string name="in_stock">In Stock:</string>
 </resources>

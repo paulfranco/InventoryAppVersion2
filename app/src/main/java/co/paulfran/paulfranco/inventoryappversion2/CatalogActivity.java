@@ -68,7 +68,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 // Set the URI on the data field of the intent
                 intent.setData(currentUri);
 
-                // Launch the {@link EditoActivity} to display the data for the current product
+                // Launch the {@link EditorActivity} to display the data for the current product
                 startActivity(intent);
             }
         });
@@ -77,27 +77,12 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
     }
 
-    private void insertProduct() {
-        // Create ContentValues object
-        ContentValues values = new ContentValues();
-
-        // Store key value pairs
-        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, "Macbook Pro");
-        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_MANUFACTURER, "Apple");
-        values.put(ProductContract.ProductEntry.COLUMN_MANUFACTURER_PHONE, "555-555-5555");
-        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE, 2620.00);
-        values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, 10);
-
-        Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
-
-    }
-
     /**
      * Helper method to delete all products in the database.
      */
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(ProductContract.ProductEntry.CONTENT_URI, null, null);
-        Log.v("CatalogActivity", rowsDeleted + " rows deleted from products database");
+        Log.v(getString(R.string.catalog_activity), rowsDeleted + getString(R.string.rows_deleted));
     }
 
     @Override
@@ -112,11 +97,6 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
-            // Respond to a click on the "Insert dummy data" menu option
-            case R.id.action_insert_dummy_data:
-                insertProduct();
-                return true;
-            // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
                 deleteAllProducts();
                 return true;

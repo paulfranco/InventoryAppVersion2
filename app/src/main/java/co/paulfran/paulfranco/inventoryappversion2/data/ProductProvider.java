@@ -189,7 +189,7 @@ public class ProductProvider extends ContentProvider {
         if (values.containsKey(ProductContract.ProductEntry.COLUMN_QUANTITY)) {
             Integer qty = values.getAsInteger(ProductContract.ProductEntry.COLUMN_QUANTITY);
             if (qty != null && qty < 0) {
-                throw new IllegalArgumentException("Pet requires valid weight");
+                throw new IllegalArgumentException("Product requires a quantity");
             }
         }
 
