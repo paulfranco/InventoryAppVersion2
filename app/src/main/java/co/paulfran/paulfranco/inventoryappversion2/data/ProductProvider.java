@@ -17,7 +17,7 @@ public class ProductProvider extends ContentProvider {
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-    // Static initializer. This is run the first time anything is called from this class.
+    /** Static initializer. This is run the first time anything is called from this class. */
     static {
 
         sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY, ProductContract.PATH_PRODUCTS, PRODUCTS);
@@ -28,7 +28,6 @@ public class ProductProvider extends ContentProvider {
 
     private ProductDBHelper mDbHelper;
 
-    /** Tag for the log messages */
     public static final String LOG_TAG = ProductProvider.class.getSimpleName();
 
     /**
@@ -65,7 +64,7 @@ public class ProductProvider extends ContentProvider {
                 selection = ProductContract.ProductEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
-                // This will perform a query on the pets table where the _id equals 3 to return a
+                // This will perform a query on the products table where the _id equals 3 to return a
                 // Cursor containing that row of the table.
                 cursor = database.query(ProductContract.ProductEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -96,33 +95,32 @@ public class ProductProvider extends ContentProvider {
     }
 
     /**
-     * Insert a pet into the database with the given content values. Return the new content URI
+     * Insert a product into the database with the given content values. Return the new content URI
      * for that specific row in the database.
      */
     private Uri insertProduct(Uri uri, ContentValues values) {
 
-        // Check that the name is not null
+        /** Check that the name is not null */
         String name = values.getAsString(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
         if (name == null) {
             throw new IllegalArgumentException("Product requires a name");
         }
-
+        /** Check that manufacturer is not null */
         String manufacturer = values.getAsString(ProductContract.ProductEntry.COLUMN_PRODUCT_MANUFACTURER);
         if (manufacturer == null) {
             throw new IllegalArgumentException("Product requires a manufacturer");
         }
-
+        /** Check that phone is not null */
         String phone = values.getAsString(ProductContract.ProductEntry.COLUMN_MANUFACTURER_PHONE);
         if (phone == null) {
             throw new IllegalArgumentException("Product requires a manufacturer contact");
         }
-
+        /** Check that quantity is not null and not less than 0 */
         Integer qty = values.getAsInteger(ProductContract.ProductEntry.COLUMN_QUANTITY);
         if (qty == null || qty < 0) {
             throw new IllegalArgumentException("Product requires a valid quantity");
         }
-
-        // If the weight is provided, check that it's greater than or equal to 0 kg
+        /** Check that price is not null and not less than 0 */
         Double price = values.getAsDouble(ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE);
         if (price != null && price < 0) {
             throw new IllegalArgumentException("Product requires a valid price");
@@ -131,7 +129,7 @@ public class ProductProvider extends ContentProvider {
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        // Insert the new pet with the given values
+        // Insert the new product with the given values
         long id = database.insert(ProductContract.ProductEntry.TABLE_NAME, null, values);
 
         // If the ID is -1, then the insertion failed. Log an error and return null.
@@ -140,7 +138,7 @@ public class ProductProvider extends ContentProvider {
             return null;
         }
 
-        // Notify all listeners that the data has changed for the pet content uri
+        // Notify all listeners that the data has changed for the product content uri
         getContext().getContentResolver().notifyChange(uri, null);
 
         // Once we know the ID of the new row in the table,
@@ -189,7 +187,6 @@ public class ProductProvider extends ContentProvider {
         }
 
         if (values.containsKey(ProductContract.ProductEntry.COLUMN_QUANTITY)) {
-            // Check that the weight is greater than or equal to 0 kg
             Integer qty = values.getAsInteger(ProductContract.ProductEntry.COLUMN_QUANTITY);
             if (qty != null && qty < 0) {
                 throw new IllegalArgumentException("Pet requires valid weight");

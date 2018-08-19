@@ -6,10 +6,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ProductDBHelper extends SQLiteOpenHelper {
 
-    // Name of the Database File
+    /** Name of the Database File */
     private static final String DATABASE_NAME = "inventory.db";
 
-    // Database Version. If you change the schema, you must increment the database version.
+    /** Database Version. If you change the schema, you must increment the database version. */
     private static final int DATABASE_VERSION = 1;
 
     public ProductDBHelper(Context context) {

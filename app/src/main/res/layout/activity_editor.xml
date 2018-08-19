@@ -43,10 +43,5 @@
         android:hint="Supplier Phone Number"
         android:inputType="textCapWords"
         style="@style/EditorFieldStyle" />
-    <Button
-        android:id="@+id/add_product_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="add product" />
 
 </LinearLayout>

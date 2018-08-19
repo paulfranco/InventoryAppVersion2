@@ -30,17 +30,22 @@ public class ProductCursorAdapter extends CursorAdapter {
         // Find individual views that we want to modify in the list item layout
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView summaryTextView = (TextView) view.findViewById(R.id.summary);
+        TextView qtySummaryTextView = (TextView) view.findViewById(R.id.qty);
 
-        // Find the columns of pet attributes that we're interested in
+        // Find the columns of product attributes that we're interested in
         int nameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
-        int breedColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_MANUFACTURER);
+        int manufacturerColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_MANUFACTURER);
+        int qtyColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY);
 
-        // Read the pet attributes from the Cursor for the current pet
-        String petName = cursor.getString(nameColumnIndex);
-        String petBreed = cursor.getString(breedColumnIndex);
+        // Read the pet attributes from the Cursor for the current product
+        String productName = cursor.getString(nameColumnIndex);
+        String productManufacturer = cursor.getString(manufacturerColumnIndex);
+        String productQty = cursor.getString(qtyColumnIndex);
+
 
         // Update the TextViews with the attributes for the current pet
-        nameTextView.setText(petName);
-        summaryTextView.setText(petBreed);
+        nameTextView.setText(productName);
+        summaryTextView.setText("Manufacturer: " + productManufacturer);
+        qtySummaryTextView.setText("In Stock: " + productQty);
     }
 }

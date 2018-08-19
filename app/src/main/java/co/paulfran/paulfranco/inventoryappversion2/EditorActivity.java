@@ -42,7 +42,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
-     * the view, and we change the mPetHasChanged boolean to true.
+     * the view, and we change the mProductHasChanged boolean to true.
      */
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -58,24 +58,24 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         setContentView(R.layout.activity_editor);
 
         // Examine the intent that was used to launch this activity,
-        // in order to figure out if we're creating a new pet or editing an existing one.
+        // in order to figure out if we're creating a new product or editing an existing one.
         Intent intent = getIntent();
         mCurrentProductUri = intent.getData();
 
-        // If the intent DOES NOT contain a pet content URI, then we know that we are
+        // If the intent DOES NOT contain a product content URI, then we know that we are
         // creating a new pet.
         if (mCurrentProductUri == null) {
-            // This is a new pet, so change the app bar to say "Add a Pet"
+            // This is a new product, so change the app bar to say "Add a Product"
             setTitle("Add Product");
 
             // Invalidate the options menu, so the "Delete" menu option can be hidden.
-            // (It doesn't make sense to delete a pet that hasn't been created yet.)
+            // (It doesn't make sense to delete a product that hasn't been created yet.)
             invalidateOptionsMenu();
         } else {
-            // Otherwise this is an existing pet, so change app bar to say "Edit Pet"
+            // Otherwise this is an existing product, so change app bar to say "Edit Product"
             setTitle("Edit Product");
 
-            // Initialize a loader to read the pet data from the database
+            // Initialize a loader to read the product data from the database
             // and display the current values in the editor
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
         }
@@ -98,7 +98,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     /**
-     * Get user input from editor and save pet into database.
+     * Get user input from editor and save product into database.
      */
     private void saveProduct() {
         // Read from input fields
@@ -107,22 +107,23 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String manufacturerString = mManufaturerEditText.getText().toString().trim();
         String phoneString = mPhoneEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
-        int quantity = Integer.parseInt(quantityString);
+        //int quantity = Integer.parseInt(quantityString);
         String priceString = mPriceEditText.getText().toString().trim();
-        float price = Float.parseFloat(priceString);
+        //float price = Float.parseFloat(priceString);
 
-        // Check if this is supposed to be a new pet
+        // Check if this is supposed to be a new product
         // and check if all the fields in the editor are blank
         if (mCurrentProductUri == null &&
                 TextUtils.isEmpty(nameString) && TextUtils.isEmpty(manufacturerString) &&
                 TextUtils.isEmpty(phoneString) && TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(priceString)) {
-            // Since no fields were modified, we can return early without creating a new pet.
+            // Since no fields were modified, we can return early without creating a new product.
             // No need to create ContentValues and no need to do any ContentProvider operations.
+            Toast.makeText(this, "No items saved", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Create a ContentValues object where column names are the keys,
-        // and pet attributes from the editor are the values.
+        // and product attributes from the editor are the values.
         ContentValues values = new ContentValues();
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, nameString);
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_MANUFACTURER, manufacturerString);
@@ -131,10 +132,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE, priceString);
 
 
-        // Determine if this is a new or existing pet by checking if mCurrentPetUri is null or not
+        // Determine if this is a new or existing product by checking if mCurrentProductUri is null or not
         if (mCurrentProductUri == null) {
-            // This is a NEW pet, so insert a new pet into the provider,
-            // returning the content URI for the new pet.
+            // This is a NEW product, so insert a new product into the provider,
+            // returning the content URI for the new product.
             Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
 
             // Show a toast message depending on whether or not the insertion was successful.
@@ -148,10 +149,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         Toast.LENGTH_SHORT).show();
             }
         } else {
-            // Otherwise this is an EXISTING pet, so update the pet with content URI: mCurrentPetUri
-            // and pass in the new ContentValues. Pass in null for the selection and selection args
-            // because mCurrentPetUri will already identify the correct row in the database that
-            // we want to modify.
             int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
 
             // Show a toast message depending on whether or not the update was successful.
@@ -182,7 +179,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        // If this is a new pet, hide the "Delete" menu item.
+        // If this is a new product, hide the "Delete" menu item.
         if (mCurrentProductUri == null) {
             MenuItem menuItem = menu.findItem(R.id.action_delete);
             menuItem.setVisible(false);
@@ -196,7 +193,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         switch (item.getItemId()) {
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
-                // Save pet to database
                 saveProduct();
                 // Exit activity
                 finish();
@@ -208,13 +204,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
-                // If the pet hasn't changed, continue with navigating up to parent activity
+                // If the product hasn't changed, continue with navigating up to parent activity
                 // which is the {@link CatalogActivity}.
                 if (!mProductHasChanged) {
                     NavUtils.navigateUpFromSameTask(EditorActivity.this);
                     return true;
                 }
-
                 // Otherwise if there are unsaved changes, setup a dialog to warn the user.
                 // Create a click listener to handle the user confirming that
                 // changes should be discarded.
@@ -239,12 +234,11 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
      */
     @Override
     public void onBackPressed() {
-        // If the pet hasn't changed, continue with handling back button press
+        // If the product hasn't changed, continue with handling back button press
         if (!mProductHasChanged) {
             super.onBackPressed();
             return;
         }
-
         // Otherwise if there are unsaved changes, setup a dialog to warn the user.
         // Create a click listener to handle the user confirming that changes should be discarded.
         DialogInterface.OnClickListener discardButtonClickListener =
@@ -263,7 +257,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Since the editor shows all pet attributes, define a projection that contains
-        // all columns from the pet table
+        // all columns from the product table
         String[] projection = {
                 ProductContract.ProductEntry._ID,
                 ProductContract.ProductEntry.COLUMN_PRODUCT_NAME,
@@ -274,10 +268,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
-                mCurrentProductUri,         // Query the content URI for the current pet
-                projection,             // Columns to include in the resulting Cursor
+                mCurrentProductUri,             // Query the content URI for the current pet
+                projection,                     // Columns to include in the resulting Cursor
                 null,                   // No selection clause
-                null,                   // No selection arguments
+                null,                 // No selection arguments
                 null);                  // Default sort order
     }
 
@@ -287,11 +281,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if (cursor == null || cursor.getCount() < 1) {
             return;
         }
-
         // Proceed with moving to the first row of the cursor and reading data from it
         // (This should be the only row in the cursor)
         if (cursor.moveToFirst()) {
-            // Find the columns of pet attributes that we're interested in
+            // Find the columns of product attributes that we're interested in
             int nameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
             int manufacturerColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_MANUFACTURER);
             int phoneColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_MANUFACTURER_PHONE);
@@ -355,7 +348,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     /**
-     * Prompt the user to confirm that they want to delete this pet.
+     * Prompt the user to confirm that they want to delete this product.
      */
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
@@ -364,14 +357,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         builder.setMessage("delete this product?");
         builder.setPositiveButton("delete", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Delete" button, so delete the pet.
+                // User clicked the "Delete" button, so delete the product.
                 deletePet();
             }
         });
         builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the product.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -384,14 +377,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     /**
-     * Perform the deletion of the pet in the database.
+     * Perform the deletion of the product in the database.
      */
     private void deletePet() {
-        // Only perform the delete if this is an existing pet.
+        // Only perform the delete if this is an existing product.
         if (mCurrentProductUri != null) {
-            // Call the ContentResolver to delete the pet at the given content URI.
-            // Pass in null for the selection and selection args because the mCurrentPetUri
-            // content URI already identifies the pet that we want.
+            // Call the ContentResolver to delete the product at the given content URI.
+            // Pass in null for the selection and selection args because the mCurrentProductUri
+            // content URI already identifies the product that we want.
             int rowsDeleted = getContentResolver().delete(mCurrentProductUri, null, null);
 
             // Show a toast message depending on whether or not the delete was successful.

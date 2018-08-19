@@ -19,7 +19,7 @@
     <item
         android:id="@+id/action_save"
         android:title="save"
-        android:icon="@drawable/ic_done"
+        android:icon="@drawable/ic_check"
         app:showAsAction="always" />
 
     <item
