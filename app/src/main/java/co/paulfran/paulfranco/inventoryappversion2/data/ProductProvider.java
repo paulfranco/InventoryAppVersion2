@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
+import co.paulfran.paulfranco.inventoryappversion2.R;
+
 public class ProductProvider extends ContentProvider {
 
     private static final int PRODUCTS = 100;
@@ -70,7 +72,7 @@ public class ProductProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
             default:
-                throw new IllegalArgumentException("Cannot query unknown URI " + uri);
+                throw new IllegalArgumentException(getContext().getString(R.string.cannot_query) + uri);
         }
         // Set notification URI on the Cursor
         // so we know what content URI the Cursor was created for.
@@ -90,7 +92,7 @@ public class ProductProvider extends ContentProvider {
             case PRODUCTS:
                 return insertProduct(uri, contentValues);
             default:
-                throw new IllegalArgumentException("Insertion is not supported for " + uri);
+                throw new IllegalArgumentException(getContext().getString(R.string.insertion_unsupported) + uri);
         }
     }
 
@@ -103,27 +105,27 @@ public class ProductProvider extends ContentProvider {
         /** Check that the name is not null */
         String name = values.getAsString(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
         if (name == null) {
-            throw new IllegalArgumentException("Product requires a name");
+            throw new IllegalArgumentException(getContext().getString(R.string.required_name));
         }
         /** Check that manufacturer is not null */
         String manufacturer = values.getAsString(ProductContract.ProductEntry.COLUMN_PRODUCT_MANUFACTURER);
         if (manufacturer == null) {
-            throw new IllegalArgumentException("Product requires a manufacturer");
+            throw new IllegalArgumentException(getContext().getString(R.string.manufacturer_required));
         }
         /** Check that phone is not null */
         String phone = values.getAsString(ProductContract.ProductEntry.COLUMN_MANUFACTURER_PHONE);
         if (phone == null) {
-            throw new IllegalArgumentException("Product requires a manufacturer contact");
+            throw new IllegalArgumentException(getContext().getString(R.string.phone_required));
         }
         /** Check that quantity is not null and not less than 0 */
         Integer qty = values.getAsInteger(ProductContract.ProductEntry.COLUMN_QUANTITY);
         if (qty == null || qty < 0) {
-            throw new IllegalArgumentException("Product requires a valid quantity");
+            throw new IllegalArgumentException(getContext().getString(R.string.qty_required));
         }
         /** Check that price is not null and not less than 0 */
         Double price = values.getAsDouble(ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE);
         if (price != null && price < 0) {
-            throw new IllegalArgumentException("Product requires a valid price");
+            throw new IllegalArgumentException(getContext().getString(R.string.price_required));
         }
 
 
@@ -134,7 +136,7 @@ public class ProductProvider extends ContentProvider {
 
         // If the ID is -1, then the insertion failed. Log an error and return null.
         if (id == -1) {
-            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            Log.e(LOG_TAG, getContext().getString(R.string.failed_insert) + uri);
             return null;
         }
 
@@ -159,7 +161,7 @@ public class ProductProvider extends ContentProvider {
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 return updateProduct(uri, contentValues, selection, selectionArgs);
             default:
-                throw new IllegalArgumentException("Update is not supported for " + uri);
+                throw new IllegalArgumentException(getContext().getString(R.string.update_unsupported) + uri);
         }
     }
 
@@ -168,28 +170,28 @@ public class ProductProvider extends ContentProvider {
         if (values.containsKey(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
             if (name == null) {
-                throw new IllegalArgumentException("Product requires a name");
+                throw new IllegalArgumentException(getContext().getString(R.string.required_name));
             }
         }
 
         if (values.containsKey(ProductContract.ProductEntry.COLUMN_PRODUCT_MANUFACTURER)) {
             String manufacturer = values.getAsString(ProductContract.ProductEntry.COLUMN_PRODUCT_MANUFACTURER);
             if (manufacturer == null) {
-                throw new IllegalArgumentException("Product requires a manufacturer");
+                throw new IllegalArgumentException(getContext().getString(R.string.manufacturer_required));
             }
         }
 
         if (values.containsKey(ProductContract.ProductEntry.COLUMN_MANUFACTURER_PHONE)) {
             String phone = values.getAsString(ProductContract.ProductEntry.COLUMN_MANUFACTURER_PHONE);
             if (phone == null) {
-                throw new IllegalArgumentException("Product requires a manufacturer phone");
+                throw new IllegalArgumentException(getContext().getString(R.string.phone_required));
             }
         }
 
         if (values.containsKey(ProductContract.ProductEntry.COLUMN_QUANTITY)) {
             Integer qty = values.getAsInteger(ProductContract.ProductEntry.COLUMN_QUANTITY);
             if (qty != null && qty < 0) {
-                throw new IllegalArgumentException("Product requires a quantity");
+                throw new IllegalArgumentException(getContext().getString(R.string.qty_required));
             }
         }
 
@@ -236,7 +238,7 @@ public class ProductProvider extends ContentProvider {
                 rowsDeleted = database.delete(ProductContract.ProductEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+                throw new IllegalArgumentException(getContext().getString(R.string.delete_unsupported) + uri);
         }
         // If 1 or more rows were deleted, then notify all listeners that the data at the
         // given URI has changed
@@ -259,7 +261,7 @@ public class ProductProvider extends ContentProvider {
             case PRODUCT_ID:
                 return ProductContract.ProductEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+                throw new IllegalStateException(getContext().getString(R.string.unknown_uri) + uri + getContext().getString(R.string.with_match) + match);
         }
     }
 }

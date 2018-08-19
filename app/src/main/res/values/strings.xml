@@ -19,4 +19,17 @@
     <string name="edit_product">Edit Product</string>
     <string name="manufacturer">Manufacturer:</string>
     <string name="in_stock">In Stock:</string>
+    <string name="cannot_query">Cannot query unknown URI</string>
+    <string name="insertion_unsupported">Insertion is not supported for</string>
+    <string name="name_required">Product requires a name</string>
+    <string name="manufacturer_required">Product requires a manufacturer</string>
+    <string name="phone_required">Product requires a manufacturer contact</string>
+    <string name="qty_required">Product requires a valid quantity</string>
+    <string name="price_required">Product requires a valid price</string>
+    <string name="failed_insert">Failed to insert row for</string>
+    <string name="update_unsupported">Update is not supported for</string>
+    <string name="required_name">Product requires a name</string>
+    <string name="delete_unsupported">Deletion is not supported for</string>
+    <string name="unknown_uri">Unknown URI</string>
+    <string name="with_match">with match</string>
 </resources>
