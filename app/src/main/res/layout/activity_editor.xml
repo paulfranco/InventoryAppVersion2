@@ -9,39 +9,88 @@
     android:padding="@dimen/activity_margin"
     tools:context="EditorActivity">
 
-    <!-- Name field -->
-    <EditText
-        android:id="@+id/productName"
-        android:hint="Product Name"
-        android:inputType="textCapWords"
-        style="@style/EditorFieldStyle" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <!-- Price field -->
-    <EditText
-        android:id="@+id/price"
-        android:hint="Price"
-        android:inputType="numberDecimal"
-        style="@style/EditorFieldStyle" />
+        <!-- Name field -->
+        <EditText
+            android:id="@+id/productName"
+            android:hint="Product Name"
+            android:inputType="textCapWords"
+            style="@style/EditorFieldStyle" />
 
-    <!-- Quantity field -->
-    <EditText
-        android:id="@+id/quantity"
-        android:hint="Quantity"
-        android:inputType="number"
-        style="@style/EditorFieldStyle" />
+        <!-- Price field -->
+        <EditText
+            android:id="@+id/price"
+            android:hint="Price"
+            android:inputType="numberDecimal"
+            style="@style/EditorFieldStyle" />
 
-    <!-- Supplier field -->
-    <EditText
-        android:id="@+id/supplier"
-        android:hint="Supplier"
-        android:inputType="textCapWords"
-        style="@style/EditorFieldStyle" />
+        <!-- Quantity field -->
+        <EditText
+            android:id="@+id/quantity"
+            android:hint="Quantity"
+            android:inputType="number"
+            style="@style/EditorFieldStyle" />
 
-    <!-- Supplier Phone field -->
-    <EditText
-        android:id="@+id/supplierPhone"
-        android:hint="Supplier Phone Number"
-        android:inputType="textCapWords"
-        style="@style/EditorFieldStyle" />
+        <!-- Supplier field -->
+        <EditText
+            android:id="@+id/supplier"
+            android:hint="Supplier"
+            android:inputType="textCapWords"
+            style="@style/EditorFieldStyle" />
+
+        <!-- Supplier Phone field -->
+        <EditText
+            android:id="@+id/supplierPhone"
+            android:hint="Supplier Phone Number"
+            android:inputType="textCapWords"
+            style="@style/EditorFieldStyle" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quantity"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:gravity="center"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/subtractBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="-"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/addBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="+"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Place an Order"
+            android:gravity="center"/>
+        <Button
+            android:id="@+id/orderBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Order"/>
+
+    </LinearLayout>
 
 </LinearLayout>

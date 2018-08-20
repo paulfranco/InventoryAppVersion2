@@ -67,7 +67,7 @@ public class ProductCursorAdapter extends CursorAdapter {
     // reduce qty on click of sale text view
     private void productSale(Context context, int productQty, Uri uriProduct) {
         if (productQty == 0) {
-            Toast.makeText(context, "There are 0 available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.zero_available, Toast.LENGTH_SHORT).show();
         } else {
             int newProductQty = productQty - 1;
             ContentValues values = new ContentValues();

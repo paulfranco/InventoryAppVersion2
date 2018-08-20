@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -36,6 +37,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private EditText mPhoneEditText;
     private EditText mQuantityEditText;
     private EditText mPriceEditText;
+    Button minusBtn;
+    Button plusBtn;
+    Button orderBtn;
 
     /** Boolean flag that keeps track of whether the pet has been edited (true) or not (false) */
     private boolean mProductHasChanged = false;
@@ -86,6 +90,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mPhoneEditText = (EditText) findViewById(R.id.supplierPhone);
         mQuantityEditText = (EditText) findViewById(R.id.quantity);
         mPriceEditText = (EditText) findViewById(R.id.price);
+        minusBtn = (Button) findViewById(R.id.subtractBtn);
+        plusBtn = (Button) findViewById(R.id.addBtn);
+        orderBtn = (Button) findViewById(R.id.orderBtn);
 
         // Setup OnTouchListeners on all the input fields, so we can determine if the user
         // has touched or modified them. This will let us know if there are unsaved changes
@@ -95,6 +102,45 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mPhoneEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
+
+        minusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+                if (quantity == 0) {
+                    Toast.makeText(EditorActivity.this, "There cannot have negative inventory", Toast.LENGTH_SHORT).show();
+                } else {
+                    quantity--;
+                    mQuantityEditText.setText(Integer.toString(quantity));
+                }
+            }
+        });
+
+        plusBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
+                quantity++;
+                mQuantityEditText.setText(Integer.toString(quantity));
+            }
+        });
+
+        orderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String productName = mNameEditText.getText().toString().trim();
+                String emailMsg = getString(R.string.email_msg) + "\n" + productName;
+
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse("mailto:test@test.com"));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject) + productName);
+                emailIntent.putExtra(Intent.EXTRA_TEXT, emailMsg);
+
+                if (emailIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(emailIntent);
+                }
+            }
+        });
     }
 
     /**
