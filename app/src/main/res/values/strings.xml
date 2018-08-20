@@ -35,4 +35,5 @@
     <string name="email_msg">We would like to place an order for one of the following products:</string>
     <string name="email_subject">Product Order:</string>
     <string name="zero_available">There are 0 available</string>
+    <string name="no_neg_inventory">There cannot have negative inventory</string>
 </resources>

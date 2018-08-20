@@ -108,7 +108,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             public void onClick(View v) {
                 int quantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
                 if (quantity == 0) {
-                    Toast.makeText(EditorActivity.this, "There cannot have negative inventory", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditorActivity.this, R.string.no_neg_inventory, Toast.LENGTH_SHORT).show();
                 } else {
                     quantity--;
                     mQuantityEditText.setText(Integer.toString(quantity));
