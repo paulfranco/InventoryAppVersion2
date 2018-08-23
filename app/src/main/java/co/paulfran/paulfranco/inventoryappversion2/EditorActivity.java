@@ -178,9 +178,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         // Check if this is supposed to be a new product
         // and check if all the fields in the editor are blank
-        if (mCurrentProductUri == null &&
-                TextUtils.isEmpty(nameString) && TextUtils.isEmpty(manufacturerString) &&
-                TextUtils.isEmpty(phoneString) && TextUtils.isEmpty(quantityString) && TextUtils.isEmpty(priceString)) {
+        if (TextUtils.isEmpty(nameString) || TextUtils.isEmpty(manufacturerString) ||
+                TextUtils.isEmpty(phoneString) || TextUtils.isEmpty(quantityString) || TextUtils.isEmpty(priceString)) {
             // Since no fields were modified, we can return early without creating a new product.
             // No need to create ContentValues and no need to do any ContentProvider operations.
             Toast.makeText(this, R.string.no_items_saved, Toast.LENGTH_SHORT).show();
