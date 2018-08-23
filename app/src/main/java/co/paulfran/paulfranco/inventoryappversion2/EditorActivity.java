@@ -1,5 +1,6 @@
 package co.paulfran.paulfranco.inventoryappversion2;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -7,9 +8,11 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -28,6 +31,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     /** Identifier for the pet data loader */
     private static final int EXISTING_PRODUCT_LOADER = 0;
+
+    private static final int PERMISSIONS_REQUEST_PHONE_CALL = 1;
 
     /** Content URI for the existing pet (null if it's a new pet) */
     private Uri mCurrentProductUri;
@@ -128,19 +133,33 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String productName = mNameEditText.getText().toString().trim();
-                String emailMsg = getString(R.string.email_msg) + "\n" + productName;
-
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-                emailIntent.setData(Uri.parse("mailto:test@test.com"));
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject) + productName);
-                emailIntent.putExtra(Intent.EXTRA_TEXT, emailMsg);
-
-                if (emailIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(emailIntent);
-                }
+                callManufacturer();
             }
         });
+    }
+
+    private void callManufacturer() {
+        String phoneNumber = mPhoneEditText.getText().toString().trim();
+        if (TextUtils.isEmpty(phoneNumber)) {
+            Toast.makeText(this, R.string.no_phone, Toast.LENGTH_SHORT).show();
+        } else {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(EditorActivity.this, new String[]{Manifest.permission.CALL_PHONE}, PERMISSIONS_REQUEST_PHONE_CALL);
+            } else {
+                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber)));
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_PHONE_CALL: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    callManufacturer();
+                }
+            }
+        }
     }
 
     /**

@@ -89,7 +89,7 @@
             android:id="@+id/orderBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Order"/>
+            android:text="Call Manufacturer"/>
 
     </LinearLayout>
 
